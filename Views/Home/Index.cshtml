@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <section class="cards">
+        @if (User.Identity.IsAuthenticated)
+        {
+
+        <div class="card">
+            <h1>Title</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. am dolorem nihil sequi similique natus dum!</p>
+        </div>
+        <div class="card">
+            <h1>Title</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.electus corrupti voluptatibus nullrem nihil sequi similique natus dta nam, fugit autem eum aliquame, harum!</p>
+        </div>
+        <div class="card">
+            <h1>Title</h1>
+            <p>Lorem ipsum doconsectetur adipisicing elit.electus corrupti voluptatibus nullrem nihil sequi similique natus dta nam, fugit autem eum aliquame, harum!</p>
+        </div>
+        <div class="card">
+            <h1>Title</h1>
+            <p>Lorem ipsum doconsectetur adipisicing elit.electus corrupti voluptatibus nullrem nihil sequi similique natus dta nam, fugit autem eum aliquame, harum!</p>
+        </div>
+        <div class="card">
+            <h1>Title</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A voluptas delectus corrupti voluptatibus nulla. Totam dolorem nihil sequi similique natus debitis expedita nam, fugit autem eum aliquam ullam? Dolore, harum!</p>
+        </div>
+        <div class="card">
+            <h1>Title</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A voluptas delectus corrupti voluptatibus nulla. Totam dolorem nihil sequi similique natus debitis expedita nam, fugit autem eum aliquam ullam? Dolore, harum!</p>
+        </div>
+        }
+        else
+        {
+        <div id="nonotecard" class="card">
+            <h1 style="color: red;">:(</h1>
+            <h2 style="color: whitesmoke;">You dont have any notes.</h2>
+            <a style="text-decoration: none;" asp-controller="Notes" asp-action="AddNote"><h3 style="color: white;">Click here to add one.</h3></a>
+        </div>
+        }
+        
+    </section>
+
