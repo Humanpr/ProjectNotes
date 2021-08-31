@@ -15,6 +15,7 @@ public class NotesDbContext : DbContext
         .HasMany(a=>a.Notes)
         .WithOne(n=>n.Author)
         .HasForeignKey(n=>n.AuthorId);
+        
 
         modelBuilder.Entity<Note>().Property(n => n.Title).HasMaxLength(50);
         modelBuilder.Entity<Note>().Property(n => n.Text).HasMaxLength(280);
