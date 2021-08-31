@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectNotes.Migrations
 {
     [DbContext(typeof(NotesDbContext))]
-    [Migration("20210831112914_Initial")]
+    [Migration("20210831162635_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,11 +58,13 @@ namespace ProjectNotes.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(280)
+                        .HasColumnType("nvarchar(280)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

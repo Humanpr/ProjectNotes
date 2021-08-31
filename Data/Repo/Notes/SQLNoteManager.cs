@@ -20,6 +20,7 @@ public class SQLNoteManager : INoteManager
     {
         var author = await context.Authors.SingleOrDefaultAsync(a => a.NameIdentifier == nameIdentifier);
         newNote.Author = author;
+        newNote.CreatedDate = DateTime.Now;
         await context.Notes.AddAsync(newNote);
         await context.SaveChangesAsync();
         return newNote;
@@ -32,7 +33,7 @@ public class SQLNoteManager : INoteManager
     /// <returns></returns>
     public async Task<IEnumerable<Note>> GetAuthorNotesByNameIdentifier(string nameIdentifier)
     {
-        var author = await context.Authors.SingleOrDefaultAsync(author => author.NameIdentifier == nameIdentifier);
+        var author = await context.Authors.Include(a => a.Notes).SingleOrDefaultAsync(author => author.NameIdentifier == nameIdentifier);
         return author.Notes;
     }
 }

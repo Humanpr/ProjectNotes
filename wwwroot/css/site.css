@@ -129,6 +129,14 @@ background-color: #262626;;
 #nonotecard:hover{
     transform: translateY(-10px);
 }
+
+#addcard{
+    margin-right: 130px;
+}
+#addcard:hover{
+    transform: translateY(-10px);
+}
+
 .card h1{
     background: linear-gradient(
 130deg
@@ -225,6 +233,13 @@ text-align: start;
     background-color: #aeaeae;
     font-size: 20px;
     height: 100px;
+}
+
+.textinput
+{
+    display: grid;
+    align-items: center;
+    place-items: center;
 }
 
 .textinputbody{

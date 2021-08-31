@@ -1,0 +1,15 @@
+
+
+    <form method="POST" class="textinput" asp-action="AddNote">
+        <div class="textinputheader">
+            <label for="Title"><h1>Title:</h1></label>
+            <input type="text" maxlength="50" autocomplete=none name="Title" id="text_header" required>
+        </div>
+          <div class="textinputbody">   
+            <label for="Text"><h1>Note Body:</h1></label>
+            <textarea maxlength="280" name="Text" id="note_body" cols="100" rows="10"></textarea>
+          </div>
+          <div class="submintBody">
+            <input type="submit" value="Submint">
+          </div>
+    </form>

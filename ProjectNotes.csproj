@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>efb09394-ebd8-452c-9244-7e2ce78f4b8d</UserSecretsId>
-    <!-- <Nullable>enable</Nullable> -->
+    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,5 +14,4 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
   </ItemGroup>
-
 </Project>

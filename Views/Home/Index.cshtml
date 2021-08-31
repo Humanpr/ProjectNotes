@@ -9,6 +9,9 @@
         {
             @if (@Model.AuthorNotes.Any())
             {
+                <div id="addcard" class="card">
+                    <a style="text-decoration: none;" asp-controller="Notes" asp-action="AddNote"><h1 style="color: red;">Add Note</h1></a>
+                </div>
                 @foreach (var note in @Model.AuthorNotes)
                 {
                     <div class="card">
