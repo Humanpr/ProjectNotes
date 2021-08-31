@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,16 +10,17 @@ using ProjectNotes.Models;
 
 namespace ProjectNotes.Controllers
 {
-    public class HomeController : Controller
+    public class NotesController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public NotesController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-
-        public IActionResult Index()
+        
+        [Authorize]
+        public IActionResult AddNote()
         {
             return View();
         }

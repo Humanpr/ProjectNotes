@@ -1,4 +1,7 @@
 using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -9,7 +12,7 @@ public class AccessController : Controller
 
     public AccessController(ILogger<AccessController> logger)
     {
-            _logger = logger;
+        _logger = logger;
     }
 
     public IActionResult Login()
@@ -17,9 +20,16 @@ public class AccessController : Controller
         return View();
     }
     
-    public IActionResult LoginGoogle()
+    public async Task LoginGoogle()
     {
-        return View();
+        var authparam = new AuthenticationProperties() {RedirectUri="/Home" };
+        await HttpContext.ChallengeAsync(scheme:"Google",authparam).ConfigureAwait(false);
     }
+
+        [Authorize]
+        public async Task<IActionResult> Logout() {
+            await HttpContext.SignOutAsync();
+            return Redirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:5000");
+        }
 }
 
