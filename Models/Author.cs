@@ -9,7 +9,8 @@ public class Author
     public int Id { get; set; }
     public string AuthorName { get; set; }
     public string NameIdentifier { get; set; }
-    public IEnumerable<Note>? Notes { get; set; }
-}
+    public IEnumerable<Note>? Notes { get; set; } = new List<Note>();
+    
+    }
 
 }

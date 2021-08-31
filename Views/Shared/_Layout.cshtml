@@ -9,24 +9,31 @@
         
         <ul class="listitems">
 
-            <li   class="item">
-                <a id="itemhome" asp-controller="Home" asp-action="Index" >Home</a>
-            </li>
-            
             @if(User.Identity.IsAuthenticated)
             {
             <li class="item">
-                <a id="itemlog" asp-controller="Access" asp-action="Logout" >Logout</a>
+                <h3 style="color:red"> Hi,@User.Claims.SingleOrDefault(c=>c.Type == "name").Value </h3>
             </li>
+
+            <li   class="item">
+                <a id="itemhome" asp-controller="Home" asp-action="Index" >Home</a>
+            </li>
+
             <li class="item">
-                <h3 style="color:red"> Hi,@User.Identity.Name </h3>
+                <a id="itemlog" asp-controller="Access" asp-action="Logout" >Logout</a>
             </li>
             }
             else
             {
+
+            <li   class="item">
+            <a id="itemhome" asp-controller="Home" asp-action="Index" >Home</a>
+            </li>
+
             <li  class="item">
                 <a id="itemlog" asp-controller="Access" asp-action="Login" >Login</a>
             </li>
+
             <li  class="item">
                 <a id="itemreg" asp-controller="Access" asp-action="Register" >Register</a>
             </li> 

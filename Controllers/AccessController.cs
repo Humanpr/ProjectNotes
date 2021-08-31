@@ -26,10 +26,10 @@ public class AccessController : Controller
         await HttpContext.ChallengeAsync(scheme:"Google",authparam).ConfigureAwait(false);
     }
 
-        [Authorize]
-        public async Task<IActionResult> Logout() {
-            await HttpContext.SignOutAsync();
-            return Redirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:5000");
-        }
+    [Authorize]
+    public async Task<IActionResult> Logout() {
+        await HttpContext.SignOutAsync();
+        return Redirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:5000");
+    }
 }
 
