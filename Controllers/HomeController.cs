@@ -23,8 +23,8 @@ namespace ProjectNotes.Controllers
         }
 
         public async Task<IActionResult> Index()
-        {
-            
+        { 
+            _logger.LogError("Someone did something");
             HomePageModel model = new HomePageModel();
             
             if (User.Identity.IsAuthenticated)

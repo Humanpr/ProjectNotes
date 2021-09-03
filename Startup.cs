@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -17,11 +18,12 @@ namespace ProjectNotes
 {
     public class Startup
     {
-        
+        private readonly IWebHostEnvironment env;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,IWebHostEnvironment _env)
         {
             Configuration = configuration;
+            env = _env;
         }
 
         public IConfiguration Configuration { get; }
@@ -29,12 +31,23 @@ namespace ProjectNotes
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             services.AddCookiePolicy(policy=> {
-                policy.Secure = CookieSecurePolicy.Always;
+                policy.Secure = CookieSecurePolicy.None;
             });
 
+            services.AddApplicationInsightsTelemetry();
             services.AddControllersWithViews();
 
+            if (!env.IsDevelopment())
+            {
+                services.AddHttpsRedirection(options =>
+                {
+                    options.RedirectStatusCode = (int) HttpStatusCode.PermanentRedirect;
+                });
+            }
+            
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -44,12 +57,19 @@ namespace ProjectNotes
             {
                 options.LoginPath = "/Access/Login";
             })
+
+            #region OpenIdConnec and UserCheck
+
             .AddOpenIdConnect("Google",options=>{
                 IConfigurationSection googleAuthNSection =
                 Configuration.GetSection("Authentication:Google");
+
+                string clientId = Configuration.GetValue<string>("GoogleClientId");
+                string clientSecret = Configuration.GetValue<string>("GoogleClientSecret");
+
                 options.Authority = "https://accounts.google.com";
-                options.ClientId = googleAuthNSection["ClientId"];
-                options.ClientSecret = googleAuthNSection["ClientSecret"];
+                options.ClientId = clientId;
+                options.ClientSecret = clientSecret;
                 options.CallbackPath = "/signin-google";
                 // After token is validated we check our DB records: If Db already contains record of user that signing in => pass.
                 //                                                   If not: Then add new record for user.
@@ -78,9 +98,9 @@ namespace ProjectNotes
 
                 };
             });
-
+            #endregion
             services.AddDbContext<NotesDbContext>(options=>{
-                options.UseSqlServer("server = localhost; database = NotesDB; Trusted_Connection = true ");
+                options.UseSqlServer(Configuration.GetValue<string>("SQLDBConnectionString"));
             });
 
             services.AddScoped<UserExistanceChecker>();
@@ -95,12 +115,16 @@ namespace ProjectNotes
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
             }
             else
             {
+                app.UseDeveloperExceptionPage();
                 //TODO: Error page
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             
             app.UseCookiePolicy();

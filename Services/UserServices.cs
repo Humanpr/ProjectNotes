@@ -22,6 +22,5 @@ namespace ProjectNotes.Services
         {
             return await authorManager.AddAuthor(newAuthor);
         }
-
     }
 }
