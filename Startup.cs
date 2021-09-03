@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +35,7 @@ namespace ProjectNotes
 
 
             services.AddCookiePolicy(policy=> {
-                policy.Secure = CookieSecurePolicy.None;
+                policy.Secure = CookieSecurePolicy.Always;
             });
 
             services.AddApplicationInsightsTelemetry();
@@ -75,7 +76,8 @@ namespace ProjectNotes
                 //                                                   If not: Then add new record for user.
                 options.Events.OnTokenValidated = async context =>
                 {
-                    var userService = context.HttpContext.RequestServices.GetRequiredService<UserServices>();
+                    var mediator = context.HttpContext.RequestServices.GetRequiredService<IMediator>();
+
                     var checker = context.HttpContext.RequestServices.GetRequiredService<UserExistanceChecker>();
                     var nameIdentifier = context.Principal.Claims.SingleOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
                     
@@ -93,7 +95,7 @@ namespace ProjectNotes
                             AuthorName = context.Principal.Claims.SingleOrDefault(c=>c.Type == "name").Value,
                             NameIdentifier = nameIdentifier,  
                         };
-                        await userService.AddUser(author);
+                        await mediator.Send(new AddUserCommand{NewUser=author});
                     }
 
                 };
@@ -104,9 +106,10 @@ namespace ProjectNotes
             });
 
             services.AddScoped<UserExistanceChecker>();
-            services.AddScoped<UserServices>();
             services.AddScoped<IAuthorManager, SQLAuthorManager>();
             services.AddScoped<INoteManager, SQLNoteManager>();
+
+            services.AddMediatR(typeof(AddUserCommand).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

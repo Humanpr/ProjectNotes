@@ -30,7 +30,6 @@ public class AccessController : Controller
     public async Task<IActionResult> Logout() {
         await HttpContext.SignOutAsync();
         return RedirectToAction("AskUserLogoutMainAccount");
-        // return Redirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:5000");
     }
 
     public IActionResult AskUserLogoutMainAccount() 
