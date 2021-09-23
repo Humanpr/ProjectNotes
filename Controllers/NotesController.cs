@@ -15,13 +15,14 @@ namespace ProjectNotes.Controllers
         public record NoteDTO(string Title, string Text);
         private readonly ILogger<HomeController> _logger;
         private readonly INoteManager noteManager;
+        private readonly NoteTweeter tweeter;
         private string NameIdentifier;
 
-        public NotesController(ILogger<HomeController> logger,INoteManager noteManager)
+        public NotesController(ILogger<HomeController> logger,INoteManager noteManager,NoteTweeter tweeter)
         {
             _logger = logger;
             this.noteManager = noteManager;
-            
+            this.tweeter = tweeter;
         }
         
         [Authorize]
@@ -45,6 +46,13 @@ namespace ProjectNotes.Controllers
                 return RedirectToAction("AddNote");
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<int> TweetNote(int id)
+        {
+            await tweeter.TweetNote(id);
+            return id;
+        }
 
     }
 }

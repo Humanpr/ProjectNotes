@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ProjectNotes.Models;
 using ProjectNotes.ViewModels;
 
 namespace ProjectNotes.Controllers
@@ -37,6 +32,11 @@ namespace ProjectNotes.Controllers
             {
                 return View(model);
             }
+        }
+
+        public IActionResult Error()
+        {
+            return View();
         }
 
     }

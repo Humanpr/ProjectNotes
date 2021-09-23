@@ -13,7 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjectNotes.Models;
-using ProjectNotes.Services;
 
 namespace ProjectNotes
 {
@@ -29,7 +28,6 @@ namespace ProjectNotes
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -48,7 +46,7 @@ namespace ProjectNotes
                     options.RedirectStatusCode = (int) HttpStatusCode.PermanentRedirect;
                 });
             }
-            
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -57,72 +55,27 @@ namespace ProjectNotes
             .AddCookie(options =>
             {
                 options.LoginPath = "/Access/Login";
-            })
-
-            #region OpenIdConnec and UserCheck
-
-            .AddOpenIdConnect("Google",options=>{
-                IConfigurationSection googleAuthNSection =
-                Configuration.GetSection("Authentication:Google");
-
-                string clientId = Configuration.GetValue<string>("GoogleClientId");
-                string clientSecret = Configuration.GetValue<string>("GoogleClientSecret");
-
-                options.Authority = "https://accounts.google.com";
-                options.ClientId = clientId;
-                options.ClientSecret = clientSecret;
-                options.CallbackPath = "/signin-google";
-                // After token is validated we check our DB records: If Db already contains record of user that signing in => pass.
-                //                                                   If not: Then add new record for user.
-                options.Events.OnTokenValidated = async context =>
-                {
-                    var mediator = context.HttpContext.RequestServices.GetRequiredService<IMediator>();
-
-                    var checker = context.HttpContext.RequestServices.GetRequiredService<UserExistanceChecker>();
-                    var nameIdentifier = context.Principal.Claims.SingleOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
-                    
-                    if (await checker.CheckUserWithNameIdentifier(nameIdentifier))
-                    {
-                        // If user is in DB then redirect to Register or smth.
-                        // context.HandleResponse();
-                        // context.Response.Redirect("/Nope");
-                    }
-                    else
-                    {
-                        //Add user records to DB
-                        Author author = new Author
-                        {
-                            AuthorName = context.Principal.Claims.SingleOrDefault(c=>c.Type == "name").Value,
-                            NameIdentifier = nameIdentifier,  
-                        };
-                        await mediator.Send(new AddUserCommand{NewUser=author});
-                    }
-
-                };
             });
-            #endregion
             services.AddDbContext<NotesDbContext>(options=>{
                 options.UseSqlServer(Configuration.GetValue<string>("SQLDBConnectionString"));
             });
 
-            services.AddScoped<UserExistanceChecker>();
+            services.AddScoped<NoteTweeter>();
+
             services.AddScoped<IAuthorManager, SQLAuthorManager>();
             services.AddScoped<INoteManager, SQLNoteManager>();
 
             services.AddMediatR(typeof(AddUserCommand).Assembly);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
             }
             else
             {
-                app.UseDeveloperExceptionPage();
                 //TODO: Error page
                 app.UseExceptionHandler("/Home/Error");
             }
