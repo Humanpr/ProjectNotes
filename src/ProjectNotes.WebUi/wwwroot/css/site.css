@@ -1,0 +1,292 @@
+﻿p {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+h1 {
+    color: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-areas: "header"
+        "main"
+        "footer";
+    grid-template-rows: max-content;
+    height: 100vh;
+    background-color: #262626;
+    ;
+}
+
+.logo h1 {
+    margin: 0;
+    background: linear-gradient( 130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: xx-large;
+}
+
+
+.logo {
+    width: fit-content;
+    height: fit-content;
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar {
+    display: grid;
+    position: -webkit-sticky;
+    grid-area: header;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(255, 252, 252, 0.24);
+    grid-template-areas: "left right";
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    height: 4.45rem;
+    padding: 5px;
+    background-color: black;
+}
+
+.listitems {
+    justify-self: end;
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+    list-style: none;
+    font-style: .99em;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+    .listitems a {
+        text-decoration: none;
+        color: white;
+        font-size: 20px;
+    }
+
+#itemlog:hover,
+#itemreg:hover,
+#itemhome:hover {
+    color: red;
+}
+
+.cards {
+    grid-area: main;
+    display: flex;
+    padding: 3rem;
+    padding-bottom: 0;
+    overflow-x: scroll;
+    margin-top: 15px;
+}
+
+    .cards::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    .cards::-webkit-scrollbar-thumb {
+        background: #201c29;
+        border-radius: 10px;
+        box-shadow: inset 2px 2px 2px hsla(0,0%,100%,.25), inset -2px -2px 2px rgba(0,0,0,.25);
+    }
+
+    .cards::-webkit-scrollbar-track {
+        background: linear-gradient(90deg,#201c29,#201c29 1px,#17141d 0,#17141d);
+    }
+
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    width: 400px;
+    min-width: 250px;
+    padding: 1.5rem;
+    border-radius: 16px;
+    background: #17141d;
+    box-shadow: 1rem 0 3rem rgb(0, 0, 0);
+    transition: .2s;
+    margin: 0;
+    clear: both;
+    position: relative;
+    transition: .2s;
+    transform-origin: bottom right;
+}
+
+    .card:focus-within ~ .card, .card:hover ~ .card {
+        transform: translateX(130px);
+    }
+
+    .card:hover {
+        transform: translateY(-1rem);
+        transform: rotate(3deg);
+    }
+
+    .card:not(:first-child) {
+        margin-left: -130px;
+    }
+
+#nonotecard {
+    margin-right: 130px;
+}
+
+    #nonotecard:hover {
+        transform: translateY(-10px);
+    }
+
+#addcard {
+    margin-right: 130px;
+}
+
+    #addcard:hover {
+        transform: translateY(-10px);
+    }
+
+.card h1 {
+    background: linear-gradient( 130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.item {
+    padding: 5px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        transform-origin: center;
+    }
+
+    100% {
+        transform: rotate(360deg);
+        transform-origin: center;
+    }
+}
+
+/* Login styles */
+
+.loginform {
+    grid-area: main;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loginitem {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.loginform h1 {
+    color: #000;
+}
+
+input[type="password"],
+input[type="text"] {
+    text-align: center;
+    font-size: x-large;
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #aeaeae;
+    margin: 10px;
+}
+
+.loginitem:last-child {
+    align-self: center;
+    margin-left: 150px;
+    margin-top: 20px;
+}
+
+input[type="checkbox"] {
+    height: 50px;
+    width: 50px;
+}
+
+    input[type="checkbox"]:active {
+        background-color: #000;
+    }
+
+input[type="submit"] {
+    background: linear-gradient( 130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
+    -webkit-background-clip: text;
+    color: transparent;
+    width: 100%;
+    padding: 1rem;
+    border: solid black;
+    border-width: 4px;
+    border-radius: 16px;
+    font-size: xx-large;
+    margin: 10px;
+    font-weight: bold;
+}
+
+#logout_btn {
+    align-self: center;
+    border: none;
+    font-size: x-large;
+    width: auto;
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+}
+
+#text_body,
+#text_header {
+    text-align: start;
+}
+
+#note_body {
+    background-color: #aeaeae;
+    font-size: 20px;
+    height: 100px;
+}
+
+.textinput {
+    display: grid;
+    align-items: center;
+    place-items: center;
+}
+
+.textinputbody {
+    width: 50%;
+}
+
+.textinputheader {
+    width: 50%;
+}
+
+.loginwith {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-self: center;
+}
+
+.loginwithGoogle {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    background-color: whitesmoke;
+    border-radius: 8px;
+}
+
+#googlelogo {
+    display: block;
+    width: 80px;
+    margin: 30px auto;
+    box-shadow: 0 5px 10px -7px #333333;
+    border-radius: 50%;
+}

@@ -1,0 +1,43 @@
+﻿@model ProjectNotes.WebUi.ViewModels.HomePageModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section class="cards">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (@Model.AuthorNotes.Any())
+        {
+            <div id="addcard" class="card">
+                <a style="text-decoration: none;" asp-controller="Notes" asp-action="AddNote"><h1 style="color: red;">Add Note</h1></a>
+            </div>
+            @foreach (var note in @Model.AuthorNotes)
+            {
+                <div class="card">
+                    <h1>@note.Title</h1>
+                    <p>@note.Text</p>
+                    <a style="text-decoration: none;" href="/Notes/TweetNote/@note.Id"><h3 style="color: white;">Tweet this!</h3></a>
+                </div>
+            }
+        }
+        else
+        {
+            <div id="nonotecard" class="card">
+                <h1 style="color: red;">:(</h1>
+                <h2 style="color: whitesmoke;">You don't have any notes.</h2>
+                <a style="text-decoration: none;" asp-controller="Notes" asp-action="AddNote"><h3 style="color: white;">Click here to add one.</h3></a>
+            </div>
+        }
+    }
+    else
+    {
+        <div id="nonotecard" class="card">
+            <h1 style="color: red;">:(</h1>
+            <h2 style="color: whitesmoke;">You need to login in order to access your notes.</h2>
+            <a style="text-decoration: none;" asp-controller="Notes" asp-action="AddNote"><h3 style="color: white;">Click here to login and add a new note.</h3></a>
+        </div>
+    }
+
+</section>
+
